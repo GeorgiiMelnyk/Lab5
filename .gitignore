@@ -7,8 +7,10 @@
 # IntelliJ IDEA
 .idea/
 *.iml
+*.xml
 *.iws
 *.ipr
+*.gitignore
 
 # BlueJ files
 *.ctxt
