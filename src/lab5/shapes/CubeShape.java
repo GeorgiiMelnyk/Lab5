@@ -1,7 +1,7 @@
-package lab4.shapes;
+package lab5.shapes;
 
-import lab4.application.DrawingPanel;
-import lab4.application.MyShape;
+import lab5.application.DrawingPanel;
+import lab5.application.MyShape;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

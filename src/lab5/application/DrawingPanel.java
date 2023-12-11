@@ -1,4 +1,4 @@
-package lab4.application;
+package lab5.application;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +36,10 @@ public class DrawingPanel extends JPanel {
         shapes.add(shape);
         fillStyles.add(fillStyle);
         colors.add(color);
+    }
+
+    public void addShape2(FigureObject figureObject){
+
     }
 
     public void setColorOfFigure(Color color){

@@ -1,13 +1,14 @@
-package lab4.application;
+package lab5.application;
 
-import lab4.shapes.*;
+import lab5.shapes.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class ShapeEditor extends JFrame{
-    private Image icon = new ImageIcon("resources/images/Lab4Icon.png").getImage();
+    private static ShapeEditor instance;
+    private Image icon = new ImageIcon("resources/images/Lab5Icon.png").getImage();
     private ImageIcon backArrowIcon = new ImageIcon(new ImageIcon("resources/images/BackArrowImage.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
     private ImageIcon pointIcon = new ImageIcon(new ImageIcon("resources/images/PointImage.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
     private ImageIcon lineIcon = new ImageIcon(new ImageIcon("resources/images/LineImage.png").getImage().getScaledInstance(20,20, Image.SCALE_SMOOTH));
@@ -22,6 +23,7 @@ public class ShapeEditor extends JFrame{
     private JToolBar toolbar = new JToolBar();
     private DrawingPanel drawingPanel = new DrawingPanel();
     private CircleComponent circleComponent = new CircleComponent(drawingPanel);
+    private ShapesListWindow shapesListWindow;
     private PointShape pointShape = new PointShape(drawingPanel);
     private LineShape lineShape = new LineShape(drawingPanel);
     private LineWithCircles lineWCirclesShape = new LineWithCircles(drawingPanel);
@@ -30,12 +32,18 @@ public class ShapeEditor extends JFrame{
     private PencilShape pencilShape = new PencilShape(drawingPanel);
     private CubeShape cubeShape = new CubeShape(drawingPanel);
 
-    public ShapeEditor(){
-        super("Lab 4");
+    private ShapeEditor(){
+        super("Lab 5");
         createFrame();
         createMenuBar();
         createToolBar();
         this.setVisible(true);
+    }
+    public static ShapeEditor getInstance() {
+        if (instance == null) {
+            instance = new ShapeEditor();
+        }
+        return instance;
     }
 
     private void createFrame(){
@@ -48,7 +56,7 @@ public class ShapeEditor extends JFrame{
     private  void createMenuBar(){
         JMenu fileMenu = new JMenu("Файл");
         JMenu colorsMenu = new JMenu("Кольори");
-        JMenu helpMenu = new JMenu("Довідка");
+        JMenu infoMenu = new JMenu("Довідка");
 
 
         JMenuItem black = new JMenuItem("Чорний");
@@ -62,6 +70,9 @@ public class ShapeEditor extends JFrame{
         JMenuItem yellow = new JMenuItem("Жовтий");
         JMenuItem orange = new JMenuItem("Помаранчевий");
 
+        JMenuItem createShapesListWindow = new JMenuItem("Список фігур");
+        //JMenuItem orange = new JMenuItem("Помаранчевий");
+
         black.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLACK); });
         empty.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0,0,0,0)); });
         white.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.WHITE); });
@@ -73,6 +84,9 @@ public class ShapeEditor extends JFrame{
         yellow.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(255, 255, 0)); });
         orange.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(237, 145, 33)); });
 
+        createShapesListWindow.addActionListener(e -> { if(shapesListWindow == null){
+            shapesListWindow = ShapesListWindow.getInstance(this);
+        } });
 
         colorsMenu.add(black);
         colorsMenu.add(empty);
@@ -85,10 +99,12 @@ public class ShapeEditor extends JFrame{
         colorsMenu.add(yellow);
         colorsMenu.add(orange);
 
+        infoMenu.add(createShapesListWindow);
+
         menuBar.add(fileMenu);
         menuBar.add(colorsMenu);
         menuBar.add(circleComponent);
-        menuBar.add(helpMenu);
+        menuBar.add(infoMenu);
 
         this.setJMenuBar(menuBar);
     }
@@ -182,6 +198,11 @@ public class ShapeEditor extends JFrame{
         public Dimension getMaximumSize() {
             return getPreferredSize();
         }
+    }
+    public void shapesListWindowClosed(){
+        this.shapesListWindow = null;
+        ShapesListWindow.setInstance(null);
+
     }
 
 }
