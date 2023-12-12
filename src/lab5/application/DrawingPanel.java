@@ -11,6 +11,7 @@ import java.util.List;
 public class DrawingPanel extends JPanel {
 
     private MyShape currentShape;
+    private List<FigureObject> figureObjectsMainList = new ArrayList<>();
     private List<Boolean> newShapeObjects = new ArrayList<>();
     private List<Shape> shapes = new ArrayList<>();
     private List<Boolean> fillStyles = new ArrayList<>();
@@ -38,8 +39,8 @@ public class DrawingPanel extends JPanel {
         colors.add(color);
     }
 
-    public void addShape2(FigureObject figureObject){
-
+    public void addFigureObject(FigureObject figureObject){
+        figureObjectsMainList.add(figureObject);
     }
 
     public void setColorOfFigure(Color color){
@@ -57,13 +58,24 @@ public class DrawingPanel extends JPanel {
         Stroke thickerStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
         g2.setStroke(thickerStroke);
 
-        for (int i = 0; i < shapes.size(); i++){
+/*        for (int i = 0; i < shapes.size(); i++){
             g2.setColor(colors.get(i));
             if(fillStyles.get(i)){
                 g2.fill(shapes.get(i));
             } else {
                 g2.draw(shapes.get(i));
             }
+        }*/
+        for(int i = 0; i < figureObjectsMainList.size(); i++){
+            for (int j = 0; j < figureObjectsMainList.get(i).getShapes().size(); j++){
+                g2.setColor(figureObjectsMainList.get(i).getColors().get(j));
+                if(figureObjectsMainList.get(i).getFillStyle().get(j)){
+                    g2.fill(figureObjectsMainList.get(i).getShapes().get(j));
+                } else {
+                    g2.draw(figureObjectsMainList.get(i).getShapes().get(j));
+                }
+            }
+
         }
 
         if(currentShape != null){

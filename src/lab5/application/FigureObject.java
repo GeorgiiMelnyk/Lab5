@@ -30,4 +30,25 @@ public class FigureObject {
     public void setNameOfFigure(String nameOfFigure) {
         this.nameOfFigure = nameOfFigure;
     }
+
+    public List<Shape> getShapes() {
+        return shapes;
+    }
+
+    public List<Boolean> getFillStyle() {
+        return fillStyle;
+    }
+
+    public List<Color> getColors() {
+        return colors;
+    }
+
+    public Point2D getPoint1() {
+        return point1;
+    }
+
+    public Point2D getPoint2() {
+        return point2;
+    }
+
 }

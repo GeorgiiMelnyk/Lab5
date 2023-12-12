@@ -27,8 +27,12 @@ public class PointShape extends MouseAdapter implements MyShape {
                 e.getPoint(),
                 "Point"
         );
-        System.out.println(figureObject.getNameOfFigure());
-        drawingPanel.addShape(true, new Ellipse2D.Double(e.getX() - 2, e.getY() - 2, 4, 4), true, drawingPanel.getColorOfFigure());
+
+        drawingPanel.addFigureObject(figureObject);
+       /* System.out.println(figureObject.getNameOfFigure());
+        System.out.println(figureObject.getPoint1().toString());
+        System.out.println(figureObject.getPoint2().toString());*/
+        //drawingPanel.addShape(true, new Ellipse2D.Double(e.getX() - 2, e.getY() - 2, 4, 4), true, drawingPanel.getColorOfFigure());
         drawingPanel.repaint();
     }
 
