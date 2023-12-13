@@ -1,7 +1,9 @@
 package lab5.shapes;
 
 import lab5.application.DrawingPanel;
+import lab5.application.FigureObject;
 import lab5.application.MyShape;
+import lab5.application.ShapesListWindow;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,12 +11,15 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CubeShape extends MouseAdapter implements MyShape {
     private DrawingPanel drawingPanel;
+    private ShapesListWindow shapesListWindow;
     private Point startPoint;
     private List<Shape> tempCube = new ArrayList<>();
+    private final String NAME_OF_FIGURE = "Cube";
     public CubeShape(DrawingPanel drawingPanel){
         this.drawingPanel = drawingPanel;
     }
@@ -37,14 +42,21 @@ public class CubeShape extends MouseAdapter implements MyShape {
     public void mouseReleased(MouseEvent e) {
         if(startPoint != null){
             List<Shape> finalCube = getCurrentCube(e.getPoint());
-            drawingPanel.addShape(true, finalCube.get(0), false, drawingPanel.getColorOfFigure());
-            for (int i = 1; i < finalCube.size(); i++){
-                drawingPanel.addShape(false, finalCube.get(i), false, drawingPanel.getColorOfFigure());
+            List<Boolean> fillStyles = new ArrayList<>();
+            List<Color> colors = new ArrayList<>();
+            for (int i = 0; i < finalCube.size(); i++){
+                fillStyles.add(false);
+                colors.add(drawingPanel.getColorOfFigure());
             }
+            FigureObject cubeObject = new FigureObject(finalCube, fillStyles, colors, startPoint, e.getPoint(), NAME_OF_FIGURE);
+            drawingPanel.addFigureObject(cubeObject);
             finalCube.clear();
             tempCube.clear();
             startPoint = null;
             drawingPanel.repaint();
+            if(shapesListWindow != null) {
+                shapesListWindow.refreshTheTable();
+            }
         }
     }
 
@@ -128,5 +140,9 @@ public class CubeShape extends MouseAdapter implements MyShape {
                 g2.draw(cubeElement);
             }
         }
+    }
+
+    public void setShapesListWindow(ShapesListWindow shapesListWindow) {
+        this.shapesListWindow = shapesListWindow;
     }
 }

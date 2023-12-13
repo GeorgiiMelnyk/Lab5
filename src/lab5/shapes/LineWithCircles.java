@@ -1,7 +1,9 @@
 package lab5.shapes;
 
 import lab5.application.DrawingPanel;
+import lab5.application.FigureObject;
 import lab5.application.MyShape;
+import lab5.application.ShapesListWindow;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,14 +11,18 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LineWithCircles extends MouseAdapter implements MyShape {
 
     private DrawingPanel drawingPanel;
+    private ShapesListWindow shapesListWindow;
     private Point startPoint;
     private final int MAXRADIUSOFCIRCLES = 8;
+    private final String NAME_OF_FIGURE = "Line With Circles";
     private List<Shape> tempLineWithCircles = new ArrayList<>();
+
     public LineWithCircles(DrawingPanel drawingPanel){
         this.drawingPanel = drawingPanel;
     }
@@ -39,13 +45,17 @@ public class LineWithCircles extends MouseAdapter implements MyShape {
     public void mouseReleased(MouseEvent e) {
         if(startPoint != null) {
             List<Shape> finalLWithEllipses = getCurrentLWithCircles(e.getPoint());
-            drawingPanel.addShape(true, finalLWithEllipses.get(0), false, drawingPanel.getColorOfFigure());
-            drawingPanel.addShape(false, finalLWithEllipses.get(1), false, drawingPanel.getColorOfFigure());
-            drawingPanel.addShape(false, finalLWithEllipses.get(2), false, drawingPanel.getColorOfFigure());
+            FigureObject lineWithCirclesObject = new FigureObject(finalLWithEllipses, Arrays.<Boolean>asList(false, false, false),
+                    Arrays.asList(drawingPanel.getColorOfFigure(), drawingPanel.getColorOfFigure(), drawingPanel.getColorOfFigure()),
+                    startPoint, e.getPoint(), NAME_OF_FIGURE);
+            drawingPanel.addFigureObject(lineWithCirclesObject);
         }
         tempLineWithCircles.clear();
-        drawingPanel.repaint();
         startPoint = null;
+        drawingPanel.repaint();
+        if(shapesListWindow != null) {
+            shapesListWindow.refreshTheTable();
+        }
     }
 
     private List<Shape> getCurrentLWithCircles(Point currentP){
@@ -100,5 +110,8 @@ public class LineWithCircles extends MouseAdapter implements MyShape {
                 g2.draw(element);
             }
         }
+    }
+    public void setShapesListWindow(ShapesListWindow shapesListWindow) {
+        this.shapesListWindow = shapesListWindow;
     }
 }

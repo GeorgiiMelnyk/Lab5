@@ -21,7 +21,7 @@ public class ShapeEditor extends JFrame{
     private Dimension dimension = toolkit.getScreenSize();
     private JMenuBar menuBar = new JMenuBar();
     private JToolBar toolbar = new JToolBar();
-    private DrawingPanel drawingPanel = new DrawingPanel();
+    private DrawingPanel drawingPanel = DrawingPanel.getInstance();
     private CircleComponent circleComponent = new CircleComponent(drawingPanel);
     private ShapesListWindow shapesListWindow;
     private PointShape pointShape = new PointShape(drawingPanel);
@@ -71,7 +71,6 @@ public class ShapeEditor extends JFrame{
         JMenuItem orange = new JMenuItem("Помаранчевий");
 
         JMenuItem createShapesListWindow = new JMenuItem("Список фігур");
-        //JMenuItem orange = new JMenuItem("Помаранчевий");
 
         black.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLACK); });
         empty.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0,0,0,0)); });
@@ -85,7 +84,16 @@ public class ShapeEditor extends JFrame{
         orange.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(237, 145, 33)); });
 
         createShapesListWindow.addActionListener(e -> { if(shapesListWindow == null){
-            shapesListWindow = ShapesListWindow.getInstance(this);
+            shapesListWindow = ShapesListWindow.getInstance(this, this.drawingPanel);
+            drawingPanel.setShapesListWindow(shapesListWindow);
+            pointShape.setShapesListWindow(shapesListWindow);
+            lineShape.setShapesListWindow(shapesListWindow);
+            lineWCirclesShape.setShapesListWindow(shapesListWindow);
+            pencilShape.setShapesListWindow(shapesListWindow);
+            rectangleShape.setShapesListWindow(shapesListWindow);
+            ellipseShape.setShapesListWindow(shapesListWindow);
+            cubeShape.setShapesListWindow(shapesListWindow);
+
         } });
 
         colorsMenu.add(black);
@@ -202,7 +210,7 @@ public class ShapeEditor extends JFrame{
     public void shapesListWindowClosed(){
         this.shapesListWindow = null;
         ShapesListWindow.setInstance(null);
-
     }
+
 
 }
