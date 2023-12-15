@@ -24,6 +24,7 @@ public class ShapeEditor extends JFrame{
     private DrawingPanel drawingPanel = DrawingPanel.getInstance();
     private CircleComponent circleComponent = new CircleComponent(drawingPanel);
     private ShapesListWindow shapesListWindow;
+    private SaveChooserWindow saveChooserWindow;
     private PointShape pointShape = new PointShape(drawingPanel);
     private LineShape lineShape = new LineShape(drawingPanel);
     private LineWithCircles lineWCirclesShape = new LineWithCircles(drawingPanel);
@@ -72,6 +73,8 @@ public class ShapeEditor extends JFrame{
 
         JMenuItem createShapesListWindow = new JMenuItem("Список фігур");
 
+        JMenuItem createSaveChooserWindow = new JMenuItem("Зберегти");
+
         black.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLACK); });
         empty.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0,0,0,0)); });
         white.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.WHITE); });
@@ -96,6 +99,9 @@ public class ShapeEditor extends JFrame{
 
         } });
 
+        createSaveChooserWindow.addActionListener(e -> {
+            saveChooserWindow = new SaveChooserWindow(this, this.drawingPanel);});
+
         colorsMenu.add(black);
         colorsMenu.add(empty);
         colorsMenu.add(white);
@@ -108,6 +114,8 @@ public class ShapeEditor extends JFrame{
         colorsMenu.add(orange);
 
         infoMenu.add(createShapesListWindow);
+
+        fileMenu.add(createSaveChooserWindow);
 
         menuBar.add(fileMenu);
         menuBar.add(colorsMenu);
@@ -211,6 +219,5 @@ public class ShapeEditor extends JFrame{
         this.shapesListWindow = null;
         ShapesListWindow.setInstance(null);
     }
-
 
 }

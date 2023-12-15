@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -25,7 +23,9 @@ public class ShapesListWindow extends JDialog {
 
     private ShapesListWindow(ShapeEditor parentFrame, DrawingPanel drawingPanel){
         super(parentFrame, "Фігури", false);
-        createDialog(parentFrame, drawingPanel);
+        this.parentFrame = parentFrame;
+        this.drawingPanel = drawingPanel;
+        createDialog();
         createTable();
         this.setVisible(true);
     }
@@ -37,14 +37,12 @@ public class ShapesListWindow extends JDialog {
         return instance;
     }
 
-    private void createDialog(ShapeEditor shapeEditor, DrawingPanel drawingPanel){
-        this.parentFrame = parentFrame;
-        this.drawingPanel = drawingPanel;
+    private void createDialog(){
         this.setIconImage(icon);
         this.setBounds(dimension.width / 2 - 200, dimension.height / 2 - 100, 400, 200);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        addWindowListener(new WindowAdapter() {
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e){
                 ShapeEditor.getInstance().shapesListWindowClosed();
