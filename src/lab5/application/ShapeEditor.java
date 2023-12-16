@@ -74,6 +74,7 @@ public class ShapeEditor extends JFrame{
         JMenuItem createShapesListWindow = new JMenuItem("Список фігур");
 
         JMenuItem createSaveChooserWindow = new JMenuItem("Зберегти");
+        JMenuItem createWindowForOpenFile = new JMenuItem("Обрати роботу");
 
         black.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLACK); });
         empty.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0,0,0,0)); });
@@ -101,6 +102,8 @@ public class ShapeEditor extends JFrame{
 
         createSaveChooserWindow.addActionListener(e -> {
             saveChooserWindow = new SaveChooserWindow(this, this.drawingPanel);});
+        createWindowForOpenFile.addActionListener(e -> {
+            new WindowForOpenFile(this, this.drawingPanel, this.shapesListWindow);});
 
         colorsMenu.add(black);
         colorsMenu.add(empty);
@@ -116,6 +119,7 @@ public class ShapeEditor extends JFrame{
         infoMenu.add(createShapesListWindow);
 
         fileMenu.add(createSaveChooserWindow);
+        fileMenu.add(createWindowForOpenFile);
 
         menuBar.add(fileMenu);
         menuBar.add(colorsMenu);

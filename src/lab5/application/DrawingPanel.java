@@ -72,10 +72,12 @@ public class DrawingPanel extends JPanel {
     }
 
     public void removeLastShape(){
-        figureObjectsMainList.remove(figureObjectsMainList.size() - 1);
-        repaint();
-        if(shapesListWindow != null) {
-            shapesListWindow.refreshTheTable();
+        if (!figureObjectsMainList.isEmpty()){
+            figureObjectsMainList.remove(figureObjectsMainList.size() - 1);
+            repaint();
+            if(shapesListWindow != null) {
+                shapesListWindow.refreshTheTable();
+            }
         }
     }
 

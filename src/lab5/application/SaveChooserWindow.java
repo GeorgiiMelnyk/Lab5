@@ -35,6 +35,8 @@ public class SaveChooserWindow extends JFileChooser {
         }
     }
 
+
+
     private void createAndSaveUniqueTextFile(String folderPath) {
         try {
             File folder = new File(folderPath);
@@ -53,8 +55,7 @@ public class SaveChooserWindow extends JFileChooser {
             }
 
             String content = getFileContent();
-            String con = getFileContent();
-            System.out.println(con);
+
             FileWriter writer = new FileWriter(file);
             writer.write(content);
             writer.close();
@@ -92,7 +93,7 @@ public class SaveChooserWindow extends JFileChooser {
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()).append("|").
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()).append("|").
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()).append("|").
-                        append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY());
+                        append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY()).append(";");
             } else {
                 stringBuilder.append(drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure()).append("|").
                         append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getRed()).append(",").
@@ -101,7 +102,7 @@ public class SaveChooserWindow extends JFileChooser {
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()).append("|").
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()).append("|").
                         append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()).append("|").
-                        append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY()).append("\n");
+                        append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY()).append(";").append("\n");
             }
 
         }
