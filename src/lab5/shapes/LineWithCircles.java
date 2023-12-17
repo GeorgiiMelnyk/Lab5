@@ -36,7 +36,7 @@ public class LineWithCircles extends MouseAdapter implements MyShape {
     public void mouseDragged(MouseEvent e) {
         if(startPoint != null){
             tempLineWithCircles.clear();
-            tempLineWithCircles.addAll(getCurrentLWithCircles(e.getPoint()));
+            tempLineWithCircles.addAll(getCurrentLWithCircles(this.startPoint, e.getPoint()));
             drawingPanel.repaint();
         }
     }
@@ -44,7 +44,7 @@ public class LineWithCircles extends MouseAdapter implements MyShape {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(startPoint != null) {
-            List<Shape> finalLWithEllipses = getCurrentLWithCircles(e.getPoint());
+            List<Shape> finalLWithEllipses = getCurrentLWithCircles(this.startPoint, e.getPoint());
             FigureObject lineWithCirclesObject = new FigureObject(finalLWithEllipses, Arrays.<Boolean>asList(false, false, false),
                     Arrays.asList(drawingPanel.getColorOfFigure(), drawingPanel.getColorOfFigure(), drawingPanel.getColorOfFigure()),
                     startPoint, e.getPoint(), NAME_OF_FIGURE);
@@ -58,7 +58,7 @@ public class LineWithCircles extends MouseAdapter implements MyShape {
         }
     }
 
-    private List<Shape> getCurrentLWithCircles(Point currentP){
+    public List<Shape> getCurrentLWithCircles(Point startPoint, Point currentP){
         List<Shape> lineWEllipsesComponents = new ArrayList<>();
 
         Ellipse2D firstCircle = new Ellipse2D.Double();

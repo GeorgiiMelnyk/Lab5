@@ -41,12 +41,10 @@ public class RectangleShape extends MouseAdapter implements MyShape {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (startPoint != null) {
-            Rectangle2D rectangle2D = new Rectangle2D.Float(
-                    Math.min(startPoint.x, e.getX()),
-                    Math.min(startPoint.y, e.getY()),
-                    Math.abs(startPoint.x - e.getX()),
-                    Math.abs(startPoint.y - e.getY()));
-            FigureObject rectangleObject = new FigureObject(Arrays.<Shape>asList(rectangle2D, rectangle2D),
+            Rectangle2D baseRectangle = calculateAndGetRectangle(this.startPoint, e.getPoint());
+            Rectangle2D contourRectangle = calculateAndGetRectangle(this.startPoint, e.getPoint());
+
+            FigureObject rectangleObject = new FigureObject(Arrays.<Shape>asList(baseRectangle, contourRectangle),
                     Arrays.<Boolean>asList(true, false), Arrays.<Color>asList(drawingPanel.getColorOfFigure(), Color.BLACK),
                     startPoint, e.getPoint(), NAME_OF_FIGURE);
             drawingPanel.addFigureObject(rectangleObject);
@@ -57,6 +55,15 @@ public class RectangleShape extends MouseAdapter implements MyShape {
                 shapesListWindow.refreshTheTable();
             }
         }
+    }
+
+    public Rectangle2D calculateAndGetRectangle(Point startPoint, Point endPoint){
+        Rectangle2D rectangle2D = new Rectangle2D.Float(
+                Math.min(startPoint.x, endPoint.x),
+                Math.min(startPoint.y, endPoint.y),
+                Math.abs(startPoint.x - endPoint.x),
+                Math.abs(startPoint.y - endPoint.y));
+        return rectangle2D;
     }
 
     @Override

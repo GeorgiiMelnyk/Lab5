@@ -42,12 +42,10 @@ public class EllipseShape extends MouseAdapter implements MyShape {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(startPoint != null){
-            Ellipse2D ellipse2D = new Ellipse2D.Double(Math.min(startPoint.x, e.getX()),
-                    Math.min(startPoint.y, e.getY()),
-                    Math.abs(startPoint.x - e.getX()),
-                    Math.abs(startPoint.y - e.getY()));
+            Ellipse2D baseEllipse = calculateAndGetEllipse(this.startPoint, e.getPoint());
+            Ellipse2D contourEllipse = calculateAndGetEllipse(this.startPoint, e.getPoint());
 
-            FigureObject ellipseObject = new FigureObject(Arrays.<Shape>asList(ellipse2D, ellipse2D), Arrays.<Boolean>asList(true, false),
+            FigureObject ellipseObject = new FigureObject(Arrays.<Shape>asList(baseEllipse, contourEllipse), Arrays.<Boolean>asList(true, false),
                     Arrays.<Color>asList(drawingPanel.getColorOfFigure(), Color.BLACK), startPoint, e.getPoint(), NAME_OF_FIGURE);
 
             drawingPanel.addFigureObject(ellipseObject);
@@ -61,6 +59,13 @@ public class EllipseShape extends MouseAdapter implements MyShape {
 
     }
 
+    public Ellipse2D calculateAndGetEllipse(Point startPoint, Point endPoint){
+        Ellipse2D ellipse2D = new Ellipse2D.Double(Math.min(startPoint.x, endPoint.x),
+                Math.min(startPoint.y, endPoint.y),
+                Math.abs(startPoint.x - endPoint.x),
+                Math.abs(startPoint.y - endPoint.y));
+        return ellipse2D;
+    }
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;

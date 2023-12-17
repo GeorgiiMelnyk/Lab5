@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CubeShape extends MouseAdapter implements MyShape {
@@ -33,7 +32,7 @@ public class CubeShape extends MouseAdapter implements MyShape {
     public void mouseDragged(MouseEvent e) {
         if (startPoint != null){
             tempCube.clear();
-            tempCube.addAll(getCurrentCube(e.getPoint()));
+            tempCube.addAll(calculateAndGetCube(this.startPoint, e.getPoint()));
             drawingPanel.repaint();
         }
     }
@@ -41,7 +40,7 @@ public class CubeShape extends MouseAdapter implements MyShape {
     @Override
     public void mouseReleased(MouseEvent e) {
         if(startPoint != null){
-            List<Shape> finalCube = getCurrentCube(e.getPoint());
+            List<Shape> finalCube = calculateAndGetCube(this.startPoint, e.getPoint());
             List<Boolean> fillStyles = new ArrayList<>();
             List<Color> colors = new ArrayList<>();
             for (int i = 0; i < finalCube.size(); i++){
@@ -60,7 +59,7 @@ public class CubeShape extends MouseAdapter implements MyShape {
         }
     }
 
-    private List<Shape> getCurrentCube(Point currentP) {
+    public List<Shape> calculateAndGetCube(Point startPoint, Point currentP) {
          List<Shape> cubeComponents = new ArrayList<>();
 
          Rectangle2D frontRectangle = new Rectangle2D.Double();
@@ -145,4 +144,5 @@ public class CubeShape extends MouseAdapter implements MyShape {
     public void setShapesListWindow(ShapesListWindow shapesListWindow) {
         this.shapesListWindow = shapesListWindow;
     }
+
 }

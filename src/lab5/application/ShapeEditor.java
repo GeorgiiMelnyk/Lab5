@@ -103,7 +103,8 @@ public class ShapeEditor extends JFrame{
         createSaveChooserWindow.addActionListener(e -> {
             saveChooserWindow = new SaveChooserWindow(this, this.drawingPanel);});
         createWindowForOpenFile.addActionListener(e -> {
-            new WindowForOpenFile(this, this.drawingPanel, this.shapesListWindow);});
+            new WindowForOpenFile(this, this.drawingPanel, this.shapesListWindow,this.rectangleShape,
+                    this.ellipseShape, this.lineWCirclesShape, this.cubeShape);});
 
         colorsMenu.add(black);
         colorsMenu.add(empty);
