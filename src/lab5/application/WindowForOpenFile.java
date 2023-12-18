@@ -31,7 +31,7 @@ public class WindowForOpenFile extends JFileChooser {
     private CubeShape cubeShape;
     private int result;
     private String fileContent;
-    private final String WINDOW_TITLE = "Оберіть файл який хочете выдкрити";
+    private final String WINDOW_TITLE = "Оберіть файл який хочете відкрити";
     private String projectFolderPath = System.getProperty("user.dir") + File.separator + "resources" + File.separator + "saved_files";
 
     public WindowForOpenFile(ShapeEditor parentFrame, DrawingPanel drawingPanel,

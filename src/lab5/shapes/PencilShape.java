@@ -19,7 +19,7 @@ public class PencilShape extends MouseAdapter implements MyShape {
     private ShapesListWindow shapesListWindow;
     private Point2D startPoint;
     private List<Shape> tempPencilLine = new ArrayList<>();
-    private final String NAME_OF_FIGURE = "Pencil Line";
+    private final static String NAME_OF_FIGURE = "Pencil Line";
     private Boolean paintStatus = false;
 
     public PencilShape(DrawingPanel drawingPanel){
@@ -79,4 +79,9 @@ public class PencilShape extends MouseAdapter implements MyShape {
     public void setShapesListWindow(ShapesListWindow shapesListWindow) {
         this.shapesListWindow = shapesListWindow;
     }
+
+    public static String getNAME_OF_FIGURE() {
+        return NAME_OF_FIGURE;
+    }
+
 }

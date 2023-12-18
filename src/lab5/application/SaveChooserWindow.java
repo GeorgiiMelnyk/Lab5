@@ -1,5 +1,7 @@
 package lab5.application;
 
+import lab5.shapes.PencilShape;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,6 +15,7 @@ public class SaveChooserWindow extends JFileChooser {
     private ShapeEditor shapeEditor;
     private int result;
     private String projectFolderPath = System.getProperty("user.dir") + File.separator + "resources" + File.separator + "saved_files";
+    private final String exceptionCase = PencilShape.getNAME_OF_FIGURE();
 
     public SaveChooserWindow(ShapeEditor parentFrame, DrawingPanel drawingPanel) {
         super();
@@ -85,35 +88,45 @@ public class SaveChooserWindow extends JFileChooser {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < drawingPanel.getMainList().size(); i++){
-            if(drawingPanel.getMainList().get(i).getNameOfFigure().equals("Pencil Line")){
-                    stringBuilder.append(drawingPanel.getMainList().get(i).getNameOfFigure()).append("|").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getRed()).append(",").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getGreen()).append(",").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getBlue()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint1().getX()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint1().getY()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint2().getX()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint2().getY()).append("||");
-                    for(int j = 0; j < drawingPanel.getMainList().get(i).getShapes().size(); j++){
-                        stringBuilder.append(drawingPanel.getMainList().get(i).getShapes().get(j).getBounds().x).append(" ").
-                                append(drawingPanel.getMainList().get(i).getShapes().get(j).getBounds().y).append("|");
+
+            FigureObject currentF = drawingPanel.getMainList().get(i);
+
+            if(currentF.getNameOfFigure().equals(exceptionCase)){
+
+                buildBaseLine(stringBuilder, currentF);
+                stringBuilder.append("||");
+
+                    for(int j = 0; j < currentF.getShapes().size(); j++){
+                        double currentX = currentF.getShapes().get(j).getBounds().getX();
+                        double currentY = currentF.getShapes().get(j).getBounds().getY();
+
+                        stringBuilder.append(currentX).append(" ").
+                                append(currentY).append("|");
                     }
-                    stringBuilder.append(";").append("\n");
+                    stringBuilder.append(";\n");
 
             }  else {
-                    stringBuilder.append(drawingPanel.getMainList().get(i).getNameOfFigure()).append("|").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getRed()).append(",").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getGreen()).append(",").
-                            append(drawingPanel.getMainList().get(i).getColors().get(0).getBlue()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint1().getX()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint1().getY()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint2().getX()).append("|").
-                            append(drawingPanel.getMainList().get(i).getPoint2().getY()).append(";").append("\n");
+                buildBaseLine(stringBuilder, currentF);
+                stringBuilder.append(";\n");
             }
         }
+
         stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
         result = stringBuilder.toString();
+
         return result;
+    }
+
+    private void buildBaseLine(StringBuilder stringBuilder, FigureObject currentFigure){
+
+        stringBuilder.append(currentFigure.getNameOfFigure()).append("|").
+                append(currentFigure.getColors().get(0).getRed()).append(",").
+                append(currentFigure.getColors().get(0).getGreen()).append(",").
+                append(currentFigure.getColors().get(0).getBlue()).append("|").
+                append(currentFigure.getPoint1().getX()).append("|").
+                append(currentFigure.getPoint1().getY()).append("|").
+                append(currentFigure.getPoint2().getX()).append("|").
+                append(currentFigure.getPoint2().getY());
     }
 
 }

@@ -24,7 +24,6 @@ public class ShapeEditor extends JFrame{
     private DrawingPanel drawingPanel = DrawingPanel.getInstance();
     private CircleComponent circleComponent = new CircleComponent(drawingPanel);
     private ShapesListWindow shapesListWindow;
-    private SaveChooserWindow saveChooserWindow;
     private PointShape pointShape = new PointShape(drawingPanel);
     private LineShape lineShape = new LineShape(drawingPanel);
     private LineWithCircles lineWCirclesShape = new LineWithCircles(drawingPanel);
@@ -32,6 +31,17 @@ public class ShapeEditor extends JFrame{
     private EllipseShape ellipseShape =  new EllipseShape(drawingPanel);
     private PencilShape pencilShape = new PencilShape(drawingPanel);
     private CubeShape cubeShape = new CubeShape(drawingPanel);
+
+    private final Color BLACK = new Color(0, 0, 0, 255);
+    private final Color EMPTY = new Color(0, 0, 0, 0);
+    private final Color WHITE = new Color(255, 255, 255, 255);
+    private final Color GREEN = new Color(0, 255, 127, 255);
+    private final Color RED = new Color(255, 0, 0, 255);
+    private final Color BLUE = new Color(0, 0, 255, 255);
+    private final Color PURPLE = new Color(153, 17, 153, 255);
+    private final Color PINK = new Color(240, 118, 139, 255);
+    private final Color YELLOW = new Color(255, 255, 0, 255);
+    private final Color ORANGE = new Color(237, 145, 33, 255);
 
     private ShapeEditor(){
         super("Lab 5");
@@ -71,21 +81,32 @@ public class ShapeEditor extends JFrame{
         JMenuItem yellow = new JMenuItem("Жовтий");
         JMenuItem orange = new JMenuItem("Помаранчевий");
 
+        black.setBackground(BLACK);
+        empty.setBackground(null);
+        white.setBackground(WHITE);
+        green.setBackground(GREEN);
+        red.setBackground(RED);
+        blue.setBackground(BLUE);
+        purple.setBackground(PURPLE);
+        pink.setBackground(PINK);
+        yellow.setBackground(YELLOW);
+        orange.setBackground(ORANGE);
+
         JMenuItem createShapesListWindow = new JMenuItem("Список фігур");
 
         JMenuItem createSaveChooserWindow = new JMenuItem("Зберегти");
         JMenuItem createWindowForOpenFile = new JMenuItem("Обрати роботу");
 
-        black.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLACK); });
-        empty.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0,0,0,0)); });
-        white.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.WHITE); });
-        red.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.RED); });
-        blue.addActionListener(e -> { drawingPanel.setColorOfFigure(Color.BLUE); });
-        green.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(0, 255, 127)); });
-        purple.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(153, 17, 153)); });
-        pink.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(240, 118,139)); });
-        yellow.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(255, 255, 0)); });
-        orange.addActionListener(e -> { drawingPanel.setColorOfFigure(new Color(237, 145, 33)); });
+        black.addActionListener(e -> { drawingPanel.setColorOfFigure(BLACK); });
+        empty.addActionListener(e -> { drawingPanel.setColorOfFigure(EMPTY); });
+        white.addActionListener(e -> { drawingPanel.setColorOfFigure(WHITE); });
+        red.addActionListener(e -> { drawingPanel.setColorOfFigure(RED); });
+        blue.addActionListener(e -> { drawingPanel.setColorOfFigure(BLUE); });
+        green.addActionListener(e -> { drawingPanel.setColorOfFigure(GREEN); });
+        purple.addActionListener(e -> { drawingPanel.setColorOfFigure(PURPLE); });
+        pink.addActionListener(e -> { drawingPanel.setColorOfFigure(PINK); });
+        yellow.addActionListener(e -> { drawingPanel.setColorOfFigure(YELLOW); });
+        orange.addActionListener(e -> { drawingPanel.setColorOfFigure(ORANGE); });
 
         createShapesListWindow.addActionListener(e -> { if(shapesListWindow == null){
             shapesListWindow = ShapesListWindow.getInstance(this, this.drawingPanel);
@@ -100,8 +121,8 @@ public class ShapeEditor extends JFrame{
 
         } });
 
-        createSaveChooserWindow.addActionListener(e -> {
-            saveChooserWindow = new SaveChooserWindow(this, this.drawingPanel);});
+        createSaveChooserWindow.addActionListener(e -> { new SaveChooserWindow(this, this.drawingPanel); });
+
         createWindowForOpenFile.addActionListener(e -> {
             new WindowForOpenFile(this, this.drawingPanel, this.shapesListWindow,this.rectangleShape,
                     this.ellipseShape, this.lineWCirclesShape, this.cubeShape);});

@@ -19,6 +19,8 @@ public class ShapesListWindow extends JDialog {
     private JButton deleteButton = new JButton("Видалити");
     private final String[] columnNames = {"Фігура", "X1", "Y1", "X2", "Y2"};
     private  final int NUMBER_OF_COLUMNS = 5;
+    private static final int NAME_COLUMN_WIDTH = 80;
+    private static final int DEFAULT_COLUMN_WIDTH = 55;
 
     private ShapesListWindow(ShapeEditor parentFrame, DrawingPanel drawingPanel){
         super(parentFrame, "Фігури", false);
@@ -84,20 +86,13 @@ public class ShapesListWindow extends JDialog {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-        table.getColumnModel().getColumn(0).setPreferredWidth(80);
+        table.getColumnModel().getColumn(0).setPreferredWidth(NAME_COLUMN_WIDTH);
         for (int i = 1; i < NUMBER_OF_COLUMNS; i++){
-            table.getColumnModel().getColumn(i).setPreferredWidth(55);
+            table.getColumnModel().getColumn(i).setPreferredWidth(DEFAULT_COLUMN_WIDTH);
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        for(int i = 0; i < drawingPanel.getMainList().size(); i++){
-            String[] data = {drawingPanel.getMainList().get(i).getNameOfFigure(),
-                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getX()),
-                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getY()),
-                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getX()),
-                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getY())};
-            model.addRow(data);
-        }
+        refreshTheTable();
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
