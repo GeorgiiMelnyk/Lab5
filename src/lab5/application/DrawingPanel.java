@@ -13,8 +13,12 @@ public class DrawingPanel extends JPanel {
     private static DrawingPanel instance;
     private ShapesListWindow shapesListWindow;
     private MyShape currentShape;
-    private List<FigureObject> figureObjectsMainList = new ArrayList<>();
+    private List<FigureObject> mainList = new ArrayList<>();
+    private int indexOfIlluminatedFigure = -1;
     private Color colorOfFigure = Color.BLACK;
+    private final Color ILLUMINATION_COLOR = new Color(255, 0, 0, 128);
+    private final Stroke BASE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+    private final Stroke ILLUMINATION_STROKE = new BasicStroke(4.0f);
 
     private DrawingPanel(){}
 
@@ -39,7 +43,7 @@ public class DrawingPanel extends JPanel {
     }
 
     public void addFigureObject(FigureObject figureObject){
-        figureObjectsMainList.add(figureObject);
+        mainList.add(figureObject);
     }
 
     @Override
@@ -47,22 +51,29 @@ public class DrawingPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        Stroke thickerStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-        g2.setStroke(thickerStroke);
 
-        for(int i = 0; i < figureObjectsMainList.size(); i++){
+        g2.setStroke(BASE_STROKE);
 
-            for (int j = 0; j < figureObjectsMainList.get(i).getShapes().size(); j++){
+        for (FigureObject figureObject : mainList) {
+            for (int j = 0; j < figureObject.getShapes().size(); j++) {
+                drawCurrentShape(g2, figureObject, j);
+            }
+        }
 
-                g2.setColor(figureObjectsMainList.get(i).getColors().get(j));
+        if(indexOfIlluminatedFigure > -1) {
 
-                if(figureObjectsMainList.get(i).getFillStyle().get(j)){
-                    g2.fill(figureObjectsMainList.get(i).getShapes().get(j));
-                } else {
-                    g2.draw(figureObjectsMainList.get(i).getShapes().get(j));
-                }
+            g2.setColor(ILLUMINATION_COLOR);
+            g2.setStroke(ILLUMINATION_STROKE);
+
+            for (int j = 0; j < mainList.get(indexOfIlluminatedFigure).getShapes().size(); j++) {
+                g2.draw(mainList.get(indexOfIlluminatedFigure).getShapes().get(j));
             }
 
+            g2.setStroke(BASE_STROKE);
+
+            for (int j = 0; j < mainList.get(indexOfIlluminatedFigure).getShapes().size(); j++) {
+            drawCurrentShape(g2, mainList.get(indexOfIlluminatedFigure), j);
+            }
         }
 
         if(currentShape != null){
@@ -71,9 +82,20 @@ public class DrawingPanel extends JPanel {
 
     }
 
+    private void drawCurrentShape(Graphics2D g2, FigureObject figureObject, int shapeIndex){
+
+        g2.setColor(figureObject.getColors().get(shapeIndex));
+
+        if(figureObject.getFillStyle().get(shapeIndex)){
+            g2.fill(figureObject.getShapes().get(shapeIndex));
+        } else {
+            g2.draw(figureObject.getShapes().get(shapeIndex));
+        }
+    }
+
     public void removeLastShape(){
-        if (!figureObjectsMainList.isEmpty()){
-            figureObjectsMainList.remove(figureObjectsMainList.size() - 1);
+        if (!mainList.isEmpty()){
+            mainList.remove(mainList.size() - 1);
             repaint();
             if(shapesListWindow != null) {
                 shapesListWindow.refreshTheTable();
@@ -81,6 +103,13 @@ public class DrawingPanel extends JPanel {
         }
     }
 
+    public int getIndexOfIlluminatedFigure() {
+        return indexOfIlluminatedFigure;
+    }
+
+    public void setIndexOfIlluminatedFigure(int indexOfIlluminatedFigure) {
+        this.indexOfIlluminatedFigure = indexOfIlluminatedFigure;
+    }
     public void setColorOfFigure(Color color){
         this.colorOfFigure = color;
     }
@@ -89,8 +118,8 @@ public class DrawingPanel extends JPanel {
         return this.colorOfFigure;
     }
 
-    public List<FigureObject> getFigureObjectsMainList() {
-        return figureObjectsMainList;
+    public List<FigureObject> getMainList() {
+        return mainList;
     }
 
     public void setShapesListWindow(ShapesListWindow shapesListWindow) {

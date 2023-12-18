@@ -84,31 +84,31 @@ public class SaveChooserWindow extends JFileChooser {
         String result;
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < drawingPanel.getFigureObjectsMainList().size(); i++){
-            if(drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure().equals("Pencil Line")){
-                    stringBuilder.append(drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getRed()).append(",").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getGreen()).append(",").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getBlue()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY()).append("||");
-                    for(int j = 0; j < drawingPanel.getFigureObjectsMainList().get(i).getShapes().size(); j++){
-                        stringBuilder.append(drawingPanel.getFigureObjectsMainList().get(i).getShapes().get(j).getBounds().x).append(" ").
-                                append(drawingPanel.getFigureObjectsMainList().get(i).getShapes().get(j).getBounds().y).append("|");
+        for (int i = 0; i < drawingPanel.getMainList().size(); i++){
+            if(drawingPanel.getMainList().get(i).getNameOfFigure().equals("Pencil Line")){
+                    stringBuilder.append(drawingPanel.getMainList().get(i).getNameOfFigure()).append("|").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getRed()).append(",").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getGreen()).append(",").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getBlue()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint1().getX()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint1().getY()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint2().getX()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint2().getY()).append("||");
+                    for(int j = 0; j < drawingPanel.getMainList().get(i).getShapes().size(); j++){
+                        stringBuilder.append(drawingPanel.getMainList().get(i).getShapes().get(j).getBounds().x).append(" ").
+                                append(drawingPanel.getMainList().get(i).getShapes().get(j).getBounds().y).append("|");
                     }
                     stringBuilder.append(";").append("\n");
 
             }  else {
-                    stringBuilder.append(drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getRed()).append(",").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getGreen()).append(",").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getColors().get(0).getBlue()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()).append("|").
-                            append(drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY()).append(";").append("\n");
+                    stringBuilder.append(drawingPanel.getMainList().get(i).getNameOfFigure()).append("|").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getRed()).append(",").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getGreen()).append(",").
+                            append(drawingPanel.getMainList().get(i).getColors().get(0).getBlue()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint1().getX()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint1().getY()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint2().getX()).append("|").
+                            append(drawingPanel.getMainList().get(i).getPoint2().getY()).append(";").append("\n");
             }
         }
         stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());

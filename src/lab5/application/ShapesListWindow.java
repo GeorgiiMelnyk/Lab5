@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 public class ShapesListWindow extends JDialog {
     private Image icon = new ImageIcon("resources/images/ShapesListWindowIcon.png").getImage();
     private static ShapesListWindow instance;
-    private ShapeEditor parentFrame;
     private DrawingPanel drawingPanel;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private Dimension dimension = toolkit.getScreenSize();
@@ -23,7 +22,6 @@ public class ShapesListWindow extends JDialog {
 
     private ShapesListWindow(ShapeEditor parentFrame, DrawingPanel drawingPanel){
         super(parentFrame, "Фігури", false);
-        this.parentFrame = parentFrame;
         this.drawingPanel = drawingPanel;
         createDialog();
         createTable();
@@ -45,11 +43,13 @@ public class ShapesListWindow extends JDialog {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e){
+                drawingPanel.setIndexOfIlluminatedFigure(-1);
+                drawingPanel.repaint();
                 ShapeEditor.getInstance().shapesListWindowClosed();
             }
         });
 
-        deleteButton.addActionListener(e -> deleteSelectRow());
+        deleteButton.addActionListener(e -> {deleteSelectRow(); drawingPanel.setIndexOfIlluminatedFigure(-1); drawingPanel.repaint();});
         deleteButton.setFocusPainted(false);
         jPanel.add(deleteButton);
 
@@ -66,6 +66,20 @@ public class ShapesListWindow extends JDialog {
 
         table = new JTable(model);
         table.getTableHeader().setReorderingAllowed(false);
+        table.setRowSelectionAllowed(true);
+        table.setColumnSelectionAllowed(false);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                    drawingPanel.setIndexOfIlluminatedFigure(table.getSelectedRow());
+                    if (drawingPanel.getIndexOfIlluminatedFigure() != -1) {
+                        drawingPanel.repaint();
+                    }
+            }   else {
+                drawingPanel.setIndexOfIlluminatedFigure(-1);
+            }
+        });
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -76,12 +90,12 @@ public class ShapesListWindow extends JDialog {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        for(int i = 0; i < drawingPanel.getFigureObjectsMainList().size(); i++){
-            String[] data = {drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure(),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY())};
+        for(int i = 0; i < drawingPanel.getMainList().size(); i++){
+            String[] data = {drawingPanel.getMainList().get(i).getNameOfFigure(),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getX()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getY()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getX()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getY())};
             model.addRow(data);
         }
 
@@ -93,12 +107,12 @@ public class ShapesListWindow extends JDialog {
 
         model.setRowCount(0);
 
-        for(int i = 0; i < drawingPanel.getFigureObjectsMainList().size(); i++){
-            String[] data = {drawingPanel.getFigureObjectsMainList().get(i).getNameOfFigure(),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getX()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint1().getY()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getX()),
-                    Integer.toString((int) drawingPanel.getFigureObjectsMainList().get(i).getPoint2().getY())};
+        for(int i = 0; i < drawingPanel.getMainList().size(); i++){
+            String[] data = {drawingPanel.getMainList().get(i).getNameOfFigure(),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getX()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint1().getY()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getX()),
+                    Integer.toString((int) drawingPanel.getMainList().get(i).getPoint2().getY())};
             model.addRow(data);
         }
     }
@@ -112,7 +126,7 @@ public class ShapesListWindow extends JDialog {
         if(selectRow != -1){
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.removeRow(selectRow);
-            drawingPanel.getFigureObjectsMainList().remove(selectRow);
+            drawingPanel.getMainList().remove(selectRow);
             drawingPanel.repaint();
         }
     }

@@ -88,7 +88,7 @@ public class WindowForOpenFile extends JFileChooser {
             allLines[i] = allLines[i].trim();
         }
 
-        drawingPanel.getFigureObjectsMainList().clear();
+        drawingPanel.getMainList().clear();
         for(int i = 0; i < allLines.length; i++){
 
             String[] currentLine = allLines[i].split("\\|");
